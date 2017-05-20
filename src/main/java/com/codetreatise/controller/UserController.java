@@ -156,23 +156,26 @@ public class UserController implements Initializable{
     	if(validate("First Name", getFirstName(), "[a-zA-Z]+") &&
     	   validate("Last Name", getLastName(), "[a-zA-Z]+") &&
     	   emptyValidation("DOB", dob.getEditor().getText().isEmpty()) && 
-    	   emptyValidation("Role", getRole() == null) &&
-    	   validate("Email", getEmail(), "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+") &&
-    	   emptyValidation("Password", getPassword().isEmpty())){
+    	   emptyValidation("Role", getRole() == null) ){
     		
     		if(userId.getText() == null || userId.getText() == ""){
-    			User user = new User();
-    			user.setFirstName(getFirstName());
-    			user.setLastName(getLastName());
-    			user.setDob(getDob());
-    			user.setGender(getGender());
-    			user.setRole(getRole());
-    			user.setEmail(getEmail());
-    			user.setPassword(getPassword());
+    			if(validate("Email", getEmail(), "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+") &&
+    				emptyValidation("Password", getPassword().isEmpty())){
+    				
+    				User user = new User();
+        			user.setFirstName(getFirstName());
+        			user.setLastName(getLastName());
+        			user.setDob(getDob());
+        			user.setGender(getGender());
+        			user.setRole(getRole());
+        			user.setEmail(getEmail());
+        			user.setPassword(getPassword());
+        			
+        			User newUser = userService.save(user);
+        			
+        			saveAlert(newUser);
+    			}
     			
-    			User newUser = userService.save(user);
-    			
-    			saveAlert(newUser);
     		}else{
     			User user = userService.find(Long.parseLong(userId.getText()));
     			user.setFirstName(getFirstName());
@@ -206,13 +209,7 @@ public class UserController implements Initializable{
     	loadUserDetails();
     }
     
-    @FXML
-    private void test(ActionEvent event){
-    	testAlert();
-    }
-    
-
-	private void clearFields() {
+   	private void clearFields() {
 		userId.setText(null);
 		firstName.clear();
 		lastName.clear();
@@ -239,15 +236,6 @@ public class UserController implements Initializable{
 		alert.setTitle("User updated successfully.");
 		alert.setHeaderText(null);
 		alert.setContentText("The user "+user.getFirstName()+" "+user.getLastName() +" has been updated.");
-		alert.showAndWait();
-	}
-	
-	private void testAlert(){
-		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Test Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText("Test alert context test ?");
 		alert.showAndWait();
 	}
 	
