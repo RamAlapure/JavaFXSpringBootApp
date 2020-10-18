@@ -9,3 +9,6 @@ The application frontend created using JavaFX and backend services are implement
 4. Update project as maven if dependencies are not resolved.
 5. Create a schema javafx in your mysql database or open configuration file application.properties from resources directory and change schema name to your schema name and also change username and password.
 6. If all goes well just run Main.java
+
+#above steps are simple and easy to foolow
+#give your reviews for to improve us
